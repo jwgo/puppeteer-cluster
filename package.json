@@ -1,6 +1,6 @@
 {
-  "name": "puppeteer-cluster",
-  "version": "0.23.0",
+  "name": "@devgo/puppeteer-cluster",
+  "version": "0.23.2",
   "description": "Cluster management for puppeteer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,12 +10,12 @@
     "coverage": "jest --coverage",
     "dev": "tsc --watch"
   },
-  "author": "Thomas Dondorf",
+  "author": "Thomas Dondorf, devgo",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thomasdondorf/puppeteer-cluster.git"
+    "url": "git+https://github.com/jwgo/puppeteer-cluster.git"
   },
-  "homepage": "https://github.com/thomasdondorf/puppeteer-cluster",
+  "homepage": "https://github.com/jwgo/puppeteer-cluster",
   "keywords": [
     "puppeteer",
     "cluster",
@@ -40,5 +40,12 @@
     "tree-kill": "^1.2.2",
     "ts-jest": "^27.1.3",
     "typescript": "^4.5.5"
+  },
+  "bugs": {
+    "url": "https://github.com/jwgo/puppeteer-cluster/issues"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
   }
 }
