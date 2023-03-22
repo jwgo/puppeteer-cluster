@@ -612,6 +612,22 @@ export default class Cluster<
         });
         return monitorObject;
     }
+    public restartBrowser() {
+        this.browser?.close();
+        this.browser?.init();
+    }
+
+    public resetTasks() {
+        return this.jobQueue.clear();
+    }
+
+    public getPendingTasks() {
+        return this.jobQueue;
+    }
+
+    public removePendingTask(jobId: string) {
+        return this.jobQueue.removeByUUID(jobId);
+    }
 
     private monitor(): void {
         if (!this.display) {

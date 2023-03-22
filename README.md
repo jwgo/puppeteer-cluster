@@ -1,10 +1,6 @@
-# Puppeteer Cluster
+# Puppeteer Cluster (devgo ver)
 
-[![Build Status](https://api.travis-ci.org/jwgo/puppeteer-cluster.svg?branch=master)](https://travis-ci.org/jwgo/puppeteer-cluster)
-[![npm](https://badgen.now.sh/npm/v/puppeteer-cluster)](https://www.npmjs.com/package/puppeteer-cluster)
-[![Coverage Status](https://coveralls.io/repos/github/jwgo/puppeteer-cluster/badge.svg?branch=master)](https://coveralls.io/github/jwgo/puppeteer-cluster?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/github/jwgo/puppeteer-cluster/badge.svg)](https://snyk.io/test/github/jwgo/puppeteer-cluster)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=jwgo/puppeteer-cluster)](https://dependabot.com)
+This is a version that adds the features I've needed while using Puppeteer Cluster.
 
 Create a cluster of puppeteer workers. This library spawns a pool of Chromium instances via [Puppeteer] and helps to keep track of jobs and errors. This is helpful if you want to crawl multiple pages or run tests in parallel. Puppeteer Cluster takes care of reusing Chromium and restarting the browser in case of errors.
 
@@ -132,6 +128,10 @@ $env:DEBUG='puppeteer-cluster:*';node examples/minimal
     -   [cluster.getMonitorObject()](#clustergetmonitorobject)
     -   [cluster.idle()](#clusteridle)
     -   [cluster.close()](#clusterclose)
+    -   [cluster.requestRestart()](#clusterrequestrestart)
+    -   [cluster.resetTasks()](#clusterresettasks)
+    -   [cluster.getPendingTasks()](#clustergetpendingtasks)
+    -   [cluster.removePendingTask(jobId)](#clusterremovependingtask)
 
 ### class: Cluster
 
@@ -238,6 +238,30 @@ Promise is resolved when the queue becomes empty.
 -   returns: <[Promise]>
 
 Closes the cluster and all opened Chromium instances including all open pages (if any were opened). It is recommended to run [Cluster.idle](#clusteridle) before calling this function. The [Cluster] object itself is considered to be disposed and cannot be used anymore.
+
+#### cluster.requestRestart()
+
+Close and relaunch your browser
+Queued tasks will be returned if they have the Retry option.
+
+#### cluster.resetTasks()
+
+-   returns: <[Promise]>
+
+Queued tasks in the internal queue are initialized.
+
+#### cluster.getPendingTasks()
+
+-   returns: <[Promise]>
+
+The tasks in the ready internal queue are displayed.
+The jobID is automatically as a uuid.
+
+#### cluster.removePendingTask()
+
+-   returns: <[Promise]>
+
+Delete tasks in the prepared internal queue by jobID.
 
 ## License
 

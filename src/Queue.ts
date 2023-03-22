@@ -1,11 +1,10 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from "events";
 
 interface QueueOptions {
     delayUntil?: number;
 }
 
 export default class Queue<T> {
-
     private list: T[] = [];
     private delayedItems: number = 0;
 
@@ -16,13 +15,10 @@ export default class Queue<T> {
     public push(item: T, options: QueueOptions = {}): void {
         if (options && options.delayUntil && options.delayUntil > Date.now()) {
             this.delayedItems += 1;
-            setTimeout(
-                () => {
-                    this.delayedItems -= 1;
-                    this.list.push(item);
-                },
-                (options.delayUntil - Date.now()),
-            );
+            setTimeout(() => {
+                this.delayedItems -= 1;
+                this.list.push(item);
+            }, options.delayUntil - Date.now());
         } else {
             this.list.push(item);
         }
@@ -34,4 +30,21 @@ export default class Queue<T> {
         return this.list.shift();
     }
 
+    public removeByUUID(jobId: string): void {
+        const index = this.list.findIndex((item) => {
+            if (item !== null && typeof item === "object" && "jobId" in item) {
+                return item["jobId"] === jobId;
+            }
+            return false;
+        });
+
+        if (index !== -1) {
+            this.list.splice(index, 1);
+        }
+    }
+
+    public clear(): void {
+        this.list = [];
+        this.delayedItems = 0;
+    }
 }

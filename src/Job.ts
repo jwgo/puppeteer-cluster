@@ -1,6 +1,6 @@
-
-import { URL } from 'url';
-import { TaskFunction } from './Cluster';
+import { URL } from "url";
+import { TaskFunction } from "./Cluster";
+import { v4 } from "uuid";
 
 export type ExecuteResolve = (value?: any) => void;
 export type ExecuteReject = (reason?: any) => void;
@@ -10,19 +10,20 @@ export interface ExecuteCallbacks {
 }
 
 export default class Job<JobData, ReturnData> {
-
     public data?: JobData;
     public taskFunction: TaskFunction<JobData, ReturnData> | undefined;
     public executeCallbacks: ExecuteCallbacks | undefined;
 
+    private jobId: any;
     private lastError: Error | null = null;
     public tries: number = 0;
 
     public constructor(
         data?: JobData,
         taskFunction?: TaskFunction<JobData, ReturnData>,
-        executeCallbacks?: ExecuteCallbacks,
+        executeCallbacks?: ExecuteCallbacks
     ) {
+        this.jobId = v4();
         this.data = data;
         this.taskFunction = taskFunction;
         this.executeCallbacks = executeCallbacks;
@@ -32,10 +33,10 @@ export default class Job<JobData, ReturnData> {
         if (!this.data) {
             return undefined;
         }
-        if (typeof this.data === 'string') {
+        if (typeof this.data === "string") {
             return this.data;
         }
-        if (typeof (this.data as any).url === 'string') {
+        if (typeof (this.data as any).url === "string") {
             return (this.data as any).url;
         }
         return undefined;
@@ -61,5 +62,4 @@ export default class Job<JobData, ReturnData> {
         this.tries += 1;
         this.lastError = error;
     }
-
 }
